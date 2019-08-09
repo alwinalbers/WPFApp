@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using WPFApplication.Models;
 
 namespace WPFApplication.ViewModel
 {
@@ -13,15 +14,15 @@ namespace WPFApplication.ViewModel
 
         public PersonViewModel()
         {
-            _person = new Person { Birthday = new DateTime(1,1,1) ,  Name = "Max Mustermann" };
+            _person = new Person { Age = 19 ,  Name = "Max Mustermann" };
         }
 
-        public DateTime PersonBirthday
+        public int PersonAge
         {
-            get { return _person.Birthday; }
+            get { return _person.Age; }
             set
             {
-                _person.Birthday = value;
+                _person.Age = value;
                 OnPropertyChanged("PersonBirthday");
             }
         }

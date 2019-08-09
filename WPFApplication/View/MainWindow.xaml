@@ -15,6 +15,6 @@
     <Grid>
         <Button Name="Button" Content="Button" HorizontalAlignment="Left" Margin="45,50,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
         <TextBox Focusable="False" Text="{Binding PersonName}" Name="TextBoxOne" HorizontalAlignment="Left" Height="23" Margin="33,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Focusable="False" Text="{Binding PersonBirthday}" Name="TextBoxTwo" HorizontalAlignment="Left" Height="20" Margin="33,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonAge}" Name="TextBoxTwo" HorizontalAlignment="Left" Height="20" Margin="33,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
     </Grid>
 </Window>

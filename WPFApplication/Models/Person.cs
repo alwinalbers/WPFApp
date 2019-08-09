@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFApplication
+namespace WPFApplication.Models
 {
     public class Person
     {
         public string Name { get; set; }
-        public DateTime Birthday { get; set; }
+        public int Age { get; set; }
     }
 }
