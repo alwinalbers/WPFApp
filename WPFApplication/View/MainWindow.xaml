@@ -14,8 +14,9 @@
 
     <Grid>
         <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="592,61,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
-        <TextBox Focusable="False" Text="{Binding PersonFirstName}" x:Name="TextBoxOne" HorizontalAlignment="Left" Height="23" Margin="33,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Focusable="False" Text="{Binding PersonLastName}" x:Name="TextBoxTwo" HorizontalAlignment="Left" Height="23" Margin="185,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
-        <TextBox Focusable="False" Text="{Binding PersonCapital}" x:Name="TextBoxTawo" HorizontalAlignment="Left" Height="23" Margin="354,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonFirstName}" x:Name="TextBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="33,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Focusable="False" Text="{Binding PersonLastName}" x:Name="TextBoxLastName" HorizontalAlignment="Left" Height="23" Margin="185,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonCapital}" x:Name="TextBoxCapital" HorizontalAlignment="Left" Height="23" Margin="354,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonId}" x:Name="TextBoxId" HorizontalAlignment="Left" Height="23" Margin="33,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

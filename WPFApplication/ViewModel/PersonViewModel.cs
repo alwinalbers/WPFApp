@@ -19,6 +19,15 @@ namespace WPFApplication.ViewModel
             _person = new Person();
         }
 
+        public int PersonId
+        {
+            get { return _person.Id; }
+            set
+            {
+                _person.Id = value;
+                OnPropertyChanged("PersonId");
+            }
+        }
         public int PersonCapital
         {
             get { return _person.Capital; }
