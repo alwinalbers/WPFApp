@@ -5,39 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using WPFApplication.Models;
+using System.Data.SqlClient;
 
 namespace WPFApplication.ViewModel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
         private Person _person;
+        private readonly string connectionString = @"Server=(LocalDb)\MSSQLLocalDb;Integrated Security=true;";
 
         public PersonViewModel()
         {
-            _person = new Person { Age = 19 ,  Name = "Max Mustermann" };
+            _person = new Person();
         }
 
-        public int PersonAge
+        public int PersonCapital
         {
-            get { return _person.Age; }
+            get { return _person.Capital; }
             set
             {
-                _person.Age = value;
-                OnPropertyChanged("PersonBirthday");
+                _person.Capital = value;
+                OnPropertyChanged("PersonCapital");
             }
         }
 
-        public string PersonName
+        public string PersonFirstName
         {
-            get { return _person.Name; }
-
+            get { return _person.FirstName; }
             set
             {
-                _person.Name = value;
-                OnPropertyChanged("PersonName");
+                _person.FirstName = value;
+                OnPropertyChanged("PersonFirstName");
             }
         }
-
+        public string PersonLastName
+        {
+            get { return _person.LastName; }
+            set
+            {
+                _person.LastName = value;
+                OnPropertyChanged("PersonLastName");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

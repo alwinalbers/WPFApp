@@ -8,7 +8,17 @@ namespace WPFApplication.Models
 {
     public class Person
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public Person() : this("Max","Mustermann", 19) { }
+        public Person(string fNameIn, string lNameIn, int capitalIn)
+        {
+            Capital = capitalIn;
+            FirstName = fNameIn;
+            LastName = lNameIn;
+        }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Capital { get; set; }
+
     }
 }
