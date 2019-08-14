@@ -13,10 +13,14 @@
     </Window.DataContext>
 
     <Grid>
-        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="592,61,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
-        <TextBox Focusable="False" Text="{Binding PersonFirstName}" x:Name="TextBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="33,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Focusable="False" Text="{Binding PersonLastName}" x:Name="TextBoxLastName" HorizontalAlignment="Left" Height="23" Margin="185,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
-        <TextBox Focusable="False" Text="{Binding PersonCapital}" x:Name="TextBoxCapital" HorizontalAlignment="Left" Height="23" Margin="354,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
-        <TextBox Focusable="False" Text="{Binding PersonId}" x:Name="TextBoxId" HorizontalAlignment="Left" Height="23" Margin="33,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="313,158,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
+        <TextBox Focusable="False" Text="{Binding PersonFirstName}" x:Name="TextBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="204,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Focusable="False" Text="{Binding PersonLastName}" x:Name="TextBoxLastName" HorizontalAlignment="Left" Height="23" Margin="353,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonCapital}" x:Name="TextBoxCapital" HorizontalAlignment="Left" Height="23" Margin="527,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
+        <TextBox Focusable="False" Text="{Binding PersonId}" x:Name="TextBoxId" HorizontalAlignment="Left" Height="23" Margin="106,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72"/>
+        <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="127,38,0,0"/>
+        <Label Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="227,38,0,0"/>
+        <Label Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="381,38,0,0"/>
+        <Label Content="Capital" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="560,38,0,0"/>
     </Grid>
 </Window>
