@@ -8,10 +8,10 @@ namespace WPFApplication.Models
 {
     public class Person
     {
-        public Person() : this(0,"Max","Mustermann", 19) { }
-        public Person(int idIn, string fNameIn, string lNameIn, int capitalIn)
+        public Person() : this(0,"Max","Mustermann", 1) { }
+        public Person(int idIn, string fNameIn, string lNameIn, int GroupIn)
         {
-            Capital = capitalIn;
+            Group = GroupIn;
             FirstName = fNameIn;
             LastName = lNameIn;
             Id = idIn;
@@ -19,7 +19,7 @@ namespace WPFApplication.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Capital { get; set; }
+        public int Group { get; set; }
         public int Id { get; set; }
     }
 }

@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using WPFApplication.Models;
+using System.Data;
 using System.Data.SqlClient;
+using WPFApplication.Models;
 
 namespace WPFApplication.ViewModel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
-        private Person _person;
-        private readonly string connectionString = @"Server=(LocalDb)\MSSQLLocalDb;Integrated Security=true;";
+
+        private static List<Person> personList = new List<Person>();
+        private Person _person = new Person();
+        private readonly string connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
 
         public PersonViewModel()
         {
-            _person = new Person();
+            PopulatePersonList();
         }
 
         public int PersonId
@@ -28,13 +31,14 @@ namespace WPFApplication.ViewModel
                 OnPropertyChanged("PersonId");
             }
         }
-        public int PersonCapital
+        public int PersonGroup
+
         {
-            get { return _person.Capital; }
+            get { return _person.Group; }
             set
             {
-                _person.Capital = value;
-                OnPropertyChanged("PersonCapital");
+                _person.Group = value;
+                OnPropertyChanged("PersonGroup");
             }
         }
 
@@ -58,6 +62,37 @@ namespace WPFApplication.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public void PopulatePersonList()
+        {
+            string queryString = "SELECT * FROM TestDB.dbo.Persons";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ReadSingleRow((IDataRecord)reader);
+                }
+                reader.Close();
+                connection.Close();
+            }
+        }
+
+        private static void ReadSingleRow(IDataRecord record)
+        {
+            var fieldcount = record.FieldCount;
+            for(int i = 0; i == fieldcount - 1; i++)
+            {
+                Person x = new Person();
+                string ja = record.GetDataTypeName(0);
+                Console.WriteLine(ja);
+            }
+        }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
