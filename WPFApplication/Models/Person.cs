@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPFApplication.Models
 {
-    public class Person
+    public class Person 
     {
         public Person() { }
         public Person(int idIn, string fNameIn, string lNameIn, int GroupIn)

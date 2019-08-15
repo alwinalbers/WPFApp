@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,58 +9,81 @@ using System.Data;
 using System.Data.SqlClient;
 using WPFApplication.Models;
 using System.Windows;
+using System.Windows.Input;
 
 namespace WPFApplication.ViewModel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
-
-        private static List<Person> personList = new List<Person>();
-        private Person person = new Person();
-        private readonly string connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
+        private ICommand _nextButtonClick;
+        private static List<Person> _personList = new List<Person>();
+        private Person _person = new Person();
+        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
 
         public PersonViewModel()
         {
             PopulatePersonList();
-            person = personList[0];
+            _person = _personList[0];
+        }
+
+        private void OnNextButtonClick()
+        {
+            if (_personList.Count == _person.Id)
+            {
+                Person = _personList[0];
+            }
+            else
+            {
+                Person = _personList[_person.Id];
+            }
         }
 
         #region Properties
-        public int PersonId
+        public Person Person
         {
-            get { return person.Id; }
+            get { return _person; }
             set
             {
-                person.Id = value;
-                OnPropertyChanged("PersonId");
+                _person = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int PersonId
+        {
+            get { return _person.Id; }
+            set
+            {
+                _person.Id = value;
+                OnPropertyChanged();
             }
         }
         public int PersonGroup
         {
-            get { return person.Group; }
+            get { return _person.Group; }
             set
             {
-                person.Group = value;
-                OnPropertyChanged("PersonGroup");
+                _person.Group = value;
+                OnPropertyChanged();
             }
         }
 
         public string PersonFirstName
         {
-            get { return person.FirstName; }
+            get { return _person.FirstName; }
             set
             {
-                person.FirstName = value;
-                OnPropertyChanged("PersonFirstName");
+                _person.FirstName = value;
+                OnPropertyChanged();
             }
         }
         public string PersonLastName
         {
-            get { return person.LastName; }
+            get { return _person.LastName; }
             set
             {
-                person.LastName = value;
-                OnPropertyChanged("PersonLastName");
+                _person.LastName = value;
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -67,7 +91,7 @@ namespace WPFApplication.ViewModel
         public void PopulatePersonList()
         {
             string queryString = "SELECT * FROM TestDB.dbo.Persons";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
@@ -92,18 +116,35 @@ namespace WPFApplication.ViewModel
                 LastName = record.GetString(2),
                 Group = record.GetInt32(3)
             };
-            personList.Add(person);
+            _personList.Add(person);
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged([CallerMemberName] string propertyName="")
         {
-            if (PropertyChanged != null)
+            var handler = PropertyChanged;
+            if (handler != null)
             {
-                var e = new PropertyChangedEventArgs(propertyName);
-                PropertyChanged(this, e);
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public ICommand NextButtonClick
+        {
+            get
+            {
+                return _nextButtonClick ?? (_nextButtonClick = new CommandHandler(() => OnNextButtonClick(), () => CanExecute));
+            }
+        }
+        public bool CanExecute
+        {
+            get
+            {
+                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
+                return true;
+            }
+        }
+        
     }
 }
