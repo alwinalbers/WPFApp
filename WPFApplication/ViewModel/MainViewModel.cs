@@ -96,7 +96,7 @@ namespace WPFApplication.ViewModel
         }
         private void AddPersonToList(IDataRecord record)
         {
-            var person = new Person()test
+            var person = new Person()
             {
                 Id = record.GetInt32(0),
                 FirstName = record.GetString(1),
