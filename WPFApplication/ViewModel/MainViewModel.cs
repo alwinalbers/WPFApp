@@ -68,7 +68,7 @@ namespace WPFApplication.ViewModel
                 connection.Close();
             }
         }
-        public void PopulatePersonList()test
+        public void PopulatePersonList()
         {
             string queryString = "SELECT * FROM TestDB.dbo.Persons";
             using (SqlConnection connection = new SqlConnection(_connectionString))
