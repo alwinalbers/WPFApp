@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using WPFApplication.Models;
+using System.Windows;
 
 namespace WPFApplication.ViewModel
 {
@@ -14,55 +15,54 @@ namespace WPFApplication.ViewModel
     {
 
         private static List<Person> personList = new List<Person>();
-        private Person _person = new Person();
+        private Person person = new Person();
         private readonly string connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
 
         public PersonViewModel()
         {
             PopulatePersonList();
+            person = personList[0];
         }
 
+        #region Properties
         public int PersonId
         {
-            get { return _person.Id; }
+            get { return person.Id; }
             set
             {
-                _person.Id = value;
+                person.Id = value;
                 OnPropertyChanged("PersonId");
             }
         }
         public int PersonGroup
-
         {
-            get { return _person.Group; }
+            get { return person.Group; }
             set
             {
-                _person.Group = value;
+                person.Group = value;
                 OnPropertyChanged("PersonGroup");
             }
         }
 
         public string PersonFirstName
         {
-            get { return _person.FirstName; }
+            get { return person.FirstName; }
             set
             {
-                _person.FirstName = value;
+                person.FirstName = value;
                 OnPropertyChanged("PersonFirstName");
             }
         }
         public string PersonLastName
         {
-            get { return _person.LastName; }
+            get { return person.LastName; }
             set
             {
-                _person.LastName = value;
+                person.LastName = value;
                 OnPropertyChanged("PersonLastName");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        #endregion
 
         public void PopulatePersonList()
         {
@@ -76,24 +76,27 @@ namespace WPFApplication.ViewModel
 
                 while (reader.Read())
                 {
-                    ReadSingleRow((IDataRecord)reader);
+                    AddPersonToList(reader);
                 }
                 reader.Close();
                 connection.Close();
             }
         }
-
-        private static void ReadSingleRow(IDataRecord record)
+        
+        private void AddPersonToList(IDataRecord record)
         {
-            var fieldcount = record.FieldCount;
-            for(int i = 0; i == fieldcount - 1; i++)
+            var person = new Person()
             {
-                Person x = new Person();
-                string ja = record.GetDataTypeName(0);
-                Console.WriteLine(ja);
-            }
+                Id = record.GetInt32(0),
+                FirstName = record.GetString(1),
+                LastName = record.GetString(2),
+                Group = record.GetInt32(3)
+            };
+            personList.Add(person);
         }
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

@@ -8,7 +8,7 @@ namespace WPFApplication.Models
 {
     public class Person
     {
-        public Person() : this(0,"Max","Mustermann", 1) { }
+        public Person() { }
         public Person(int idIn, string fNameIn, string lNameIn, int GroupIn)
         {
             Group = GroupIn;
