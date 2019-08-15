@@ -13,31 +13,23 @@ using System.Windows.Input;
 
 namespace WPFApplication.ViewModel
 {
-    public class PersonViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
         private ICommand _nextButtonClick;
         private static List<Person> _personList = new List<Person>();
+        private static List<Group> _groupList = new List<Group>();
         private Person _person = new Person();
+        private Group _group = new Group();
         private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
 
-        public PersonViewModel()
+        public MainViewModel()
         {
             PopulatePersonList();
+            PopulateGroupList();
             _person = _personList[0];
+            _group = _groupList[0];
         }
-
-        private void OnNextButtonClick()
-        {
-            if (_personList.Count == _person.Id)
-            {
-                Person = _personList[0];
-            }
-            else
-            {
-                Person = _personList[_person.Id];
-            }
-        }
-
+        
         #region Properties
         public Person Person
         {
@@ -48,46 +40,34 @@ namespace WPFApplication.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public int PersonId
+        public Group Group
         {
-            get { return _person.Id; }
+            get { return _group; }
             set
             {
-                _person.Id = value;
-                OnPropertyChanged();
-            }
-        }
-        public int PersonGroup
-        {
-            get { return _person.Group; }
-            set
-            {
-                _person.Group = value;
+                _group = value;
                 OnPropertyChanged();
             }
         }
 
-        public string PersonFirstName
-        {
-            get { return _person.FirstName; }
-            set
-            {
-                _person.FirstName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string PersonLastName
-        {
-            get { return _person.LastName; }
-            set
-            {
-                _person.LastName = value;
-                OnPropertyChanged();
-            }
-        }
         #endregion
+        public void PopulateGroupList()
+        {
+            string queryString = "SELECT * FROM TestDB.dbo.Groups";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
 
+                while (reader.Read())
+                {
+                    AddGroupToList(reader);
+                }
+                reader.Close();
+                connection.Close();
+            }
+        }
         public void PopulatePersonList()
         {
             string queryString = "SELECT * FROM TestDB.dbo.Persons";
@@ -95,7 +75,6 @@ namespace WPFApplication.ViewModel
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
-
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -106,7 +85,15 @@ namespace WPFApplication.ViewModel
                 connection.Close();
             }
         }
-        
+        private void AddGroupToList(IDataRecord record)
+        {
+            var group = new Group()
+            {
+                Id = record.GetInt32(0),
+                Name = record.GetString(1)
+            };
+            _groupList.Add(group);
+        }
         private void AddPersonToList(IDataRecord record)
         {
             var person = new Person()
@@ -129,19 +116,34 @@ namespace WPFApplication.ViewModel
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        private void OnNextButtonClick()
+        {
+            if (_personList.Count == _person.Id)
+            {
+                Person = _personList[0];
+            }
+            else
+            {
+                Person = _personList[_person.Id];
+            }
 
+            while (Person.Group != Group.Id)
+            {
+                Group = _groupList[_person.Group-1];
+            }
+        }
         public ICommand NextButtonClick
         {
             get
             {
                 return _nextButtonClick ?? (_nextButtonClick = new CommandHandler(() => OnNextButtonClick(), () => CanExecute));
             }
+
         }
         public bool CanExecute
         {
             get
             {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
                 return true;
             }
         }
