@@ -16,6 +16,8 @@ namespace WPFApplication.ViewModel
     public class MainViewModel : INotifyPropertyChanged
     {
         private ICommand _nextButtonClick;
+        private ICommand _previousButtonClick;
+
         private static List<Person> _personList = new List<Person>();
         private static List<Group> _groupList = new List<Group>();
         private Person _person = new Person();
@@ -40,6 +42,7 @@ namespace WPFApplication.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public Group Group
         {
             get { return _group; }
@@ -50,8 +53,34 @@ namespace WPFApplication.ViewModel
             }
         }
 
+        public ICommand NextButtonClick
+        {
+            get
+            {
+                return _nextButtonClick ?? (_nextButtonClick = new CommandHandler(() => OnNextButtonClick(), () => CanExecute));
+            }
+        }
+
+        public ICommand PreviousButtonClick
+        {
+            get
+            {
+                return _previousButtonClick ?? (_previousButtonClick = new CommandHandler(() => OnPreviousButtonClick(), () => CanExecute));
+            }
+        }
+
+        public bool CanExecute
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         #endregion
-        public void PopulateGroupList()
+
+        #region Filling Lists With Data
+        private void PopulateGroupList()
         {
             string queryString = "SELECT * FROM TestDB.dbo.Groups";
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -68,7 +97,8 @@ namespace WPFApplication.ViewModel
                 connection.Close();
             }
         }
-        public void PopulatePersonList()
+
+        private void PopulatePersonList()
         {
             string queryString = "SELECT * FROM TestDB.dbo.Persons";
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -85,6 +115,7 @@ namespace WPFApplication.ViewModel
                 connection.Close();
             }
         }
+
         private void AddGroupToList(IDataRecord record)
         {
             var group = new Group()
@@ -94,6 +125,7 @@ namespace WPFApplication.ViewModel
             };
             _groupList.Add(group);
         }
+
         private void AddPersonToList(IDataRecord record)
         {
             var person = new Person()
@@ -106,47 +138,46 @@ namespace WPFApplication.ViewModel
             _personList.Add(person);
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName] string propertyName="")
+        private void EstablishPersonGroupRelation()
         {
-            var handler = PropertyChanged;
-            if (handler != null)
+            while (Person.Group != Group.Id)
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                Group = _groupList[Person.Group - 1];
             }
         }
+        #endregion
+
         private void OnNextButtonClick()
         {
-            if (_personList.Count == _person.Id)
+            if (_personList.Count == Person.Id)
             {
                 Person = _personList[0];
             }
             else
             {
-                Person = _personList[_person.Id];
+                Person = _personList[Person.Id];
             }
+            EstablishPersonGroupRelation();
+        }
 
-            while (Person.Group != Group.Id)
-            {
-                Group = _groupList[_person.Group-1];
-            }
-        }
-        public ICommand NextButtonClick
+        private void OnPreviousButtonClick()
         {
-            get
+            if(Person.Id == 1)
             {
-                return _nextButtonClick ?? (_nextButtonClick = new CommandHandler(() => OnNextButtonClick(), () => CanExecute));
+                Person = _personList[_personList.Count-1];
             }
+            else
+            {
+                Person = _personList[Person.Id - 2];
+            }
+            EstablishPersonGroupRelation();
+        }
 
-        }
-        public bool CanExecute
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            get
-            {
-                return true;
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
     }
 }
