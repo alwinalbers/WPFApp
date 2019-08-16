@@ -11,9 +11,6 @@ namespace WPFApplication.ViewModel
     {
         private Action _action;
         private Func<bool> _canExecute;
-        private Action onNextButtonClick;
-        private Action onPreviousButtonClick;
-        private bool canExecute;
 
         /// <summary>
         /// Creates instance of the command handler
@@ -25,18 +22,6 @@ namespace WPFApplication.ViewModel
             _action = action;
             _canExecute = canExecute;
         }
-
-        //public CommandHandler(Action onNextButtonClick, bool canExecute)
-        //{
-        //    this.onNextButtonClick = onNextButtonClick;
-        //    this.canExecute = canExecute;
-        //}
-        //
-        //public CommandHandler(Action onPreviousButtonClick, bool canExecute)
-        //{
-        //    this.onPreviousButtonClick = onPreviousButtonClick;
-        //    this.canExecute = canExecute;
-        //}
 
         /// <summary>
         /// Wires CanExecuteChanged event 
@@ -56,7 +41,6 @@ namespace WPFApplication.ViewModel
         {
             return true;
         }
-
         public void Execute(object parameter)
         {
             _action();

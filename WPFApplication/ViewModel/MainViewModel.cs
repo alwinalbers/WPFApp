@@ -15,15 +15,6 @@ namespace WPFApplication.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private ICommand _nextButtonClick;
-        private ICommand _previousButtonClick;
-
-        private static List<Person> _personList = new List<Person>();
-        private static List<Group> _groupList = new List<Group>();
-        private Person _person = new Person();
-        private Group _group = new Group();
-        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
-
         public MainViewModel()
         {
             PopulatePersonList();
@@ -31,6 +22,18 @@ namespace WPFApplication.ViewModel
             _person = _personList[0];
             _group = _groupList[0];
         }
+
+        #region fields
+        private ICommand _nextButtonClick;
+        private ICommand _previousButtonClick;
+        private ICommand _saveButtonClick;
+
+        private static List<Person> _personList = new List<Person>();
+        private static List<Group> _groupList = new List<Group>();
+        private Person _person = new Person();
+        private Group _group = new Group();
+        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
+        #endregion        
         
         #region Properties
         public Person Person
@@ -66,6 +69,14 @@ namespace WPFApplication.ViewModel
             get
             {
                 return _previousButtonClick ?? (_previousButtonClick = new CommandHandler(() => OnPreviousButtonClick(), () => CanExecute));
+            }
+        }
+
+        public ICommand SaveButtonClick
+        {
+            get
+            {
+                return _saveButtonClick ?? (_saveButtonClick = new CommandHandler(() => OnSaveButtonClick(), () => CanExecute));
             }
         }
 
@@ -146,7 +157,8 @@ namespace WPFApplication.ViewModel
             }
         }
         #endregion
-
+        
+        #region ButtonClicks
         private void OnNextButtonClick()
         {
             if (_personList.Count == Person.Id)
@@ -173,6 +185,33 @@ namespace WPFApplication.ViewModel
             EstablishPersonGroupRelation();
         }
 
+        private void OnSaveButtonClick()
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            conn.Open();
+            string sqlQuery = "UPDATE Persons SET FirstName = '(@FName)' WHERE Id = (@Id)";
+            SqlCommand command = new SqlCommand(sqlQuery, conn);
+
+            command.Parameters.Add("@FName", SqlDbType.VarChar);
+            command.Parameters.Add("@Id", SqlDbType.Int);
+            command.Parameters["@Id"].Value = Person.Id;
+            command.Parameters["@FName"].Value = Person.FirstName;
+
+            try
+            {
+                command.ExecuteNonQuery();
+                MessageBox.Show("ja");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
