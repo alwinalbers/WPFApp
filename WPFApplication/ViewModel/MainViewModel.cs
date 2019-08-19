@@ -93,7 +93,7 @@ namespace WPFApplication.ViewModel
         #region Filling Lists With Data
         private void PopulateDepartmentList()
         {
-            string queryString = "SELECT * FROM TestDB.dbo.Departments";
+            string queryString = "SELECT * FROM Departments";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -111,7 +111,7 @@ namespace WPFApplication.ViewModel
 
         private void PopulatePersonList()
         {
-            string queryString = "SELECT * FROM TestDB.dbo.Persons";
+            string queryString = "SELECT * FROM Persons";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -189,7 +189,7 @@ namespace WPFApplication.ViewModel
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string sqlQuery = "UPDATE dbo.Persons SET FirstName = @FName , LastName = @LName , Department = @DepartmentId WHERE Id = @Id";
+                string sqlQuery = "UPDATE Persons SET FirstName = @FName , LastName = @LName , Department = @DepartmentId WHERE Id = @Id";
                 conn.Open();
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, conn))
