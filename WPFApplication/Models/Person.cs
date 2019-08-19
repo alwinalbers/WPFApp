@@ -10,13 +10,13 @@ namespace WPFApplication.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Group { get; set; }
+        public int Department { get; set; }
         public int Id { get; set; }
 
         public Person() { }
-        public Person(int idIn, string fNameIn, string lNameIn, int GroupIn)
+        public Person(int idIn, string fNameIn, string lNameIn, int DepartmentIn)
         {
-            Group = GroupIn;
+            Department = DepartmentIn;
             FirstName = fNameIn;
             LastName = lNameIn;
             Id = idIn;

@@ -18,9 +18,9 @@ namespace WPFApplication.ViewModel
         public MainViewModel()
         {
             PopulatePersonList();
-            PopulateGroupList();
+            PopulateDepartmentList();
             _person = _personList[0];
-            _group = _groupList[0];
+            _department = _departmentList[0];
         }
 
         #region fields
@@ -29,12 +29,12 @@ namespace WPFApplication.ViewModel
         private ICommand _saveButtonClick;
 
         private static List<Person> _personList = new List<Person>();
-        private static List<Group> _groupList = new List<Group>();
+        private static List<Department> _departmentList = new List<Department>();
         private Person _person = new Person();
-        private Group _group = new Group();
-        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;";
-        #endregion        
-        
+        private Department _department = new Department();
+        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=testDB;";
+        #endregion
+
         #region Properties
         public Person Person
         {
@@ -46,12 +46,12 @@ namespace WPFApplication.ViewModel
             }
         }
 
-        public Group Group
+        public Department Department
         {
-            get { return _group; }
+            get { return _department; }
             set
             {
-                _group = value;
+                _department = value;
                 OnPropertyChanged();
             }
         }
@@ -91,9 +91,9 @@ namespace WPFApplication.ViewModel
         #endregion
 
         #region Filling Lists With Data
-        private void PopulateGroupList()
+        private void PopulateDepartmentList()
         {
-            string queryString = "SELECT * FROM TestDB.dbo.Groups";
+            string queryString = "SELECT * FROM TestDB.dbo.Departments";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -102,7 +102,7 @@ namespace WPFApplication.ViewModel
 
                 while (reader.Read())
                 {
-                    AddGroupToList(reader);
+                    AddDepartmentToList(reader);
                 }
                 reader.Close();
                 connection.Close();
@@ -127,14 +127,14 @@ namespace WPFApplication.ViewModel
             }
         }
 
-        private void AddGroupToList(IDataRecord record)
+        private void AddDepartmentToList(IDataRecord record)
         {
-            var group = new Group()
+            var Department = new Department()
             {
                 Id = record.GetInt32(0),
                 Name = record.GetString(1)
             };
-            _groupList.Add(group);
+            _departmentList.Add(Department);
         }
 
         private void AddPersonToList(IDataRecord record)
@@ -144,20 +144,20 @@ namespace WPFApplication.ViewModel
                 Id = record.GetInt32(0),
                 FirstName = record.GetString(1),
                 LastName = record.GetString(2),
-                Group = record.GetInt32(3)
+                Department = record.GetInt32(3)
             };
             _personList.Add(person);
         }
 
-        private void EstablishPersonGroupRelation()
+        private void EstablishPersonDepartmentRelation()
         {
-            while (Person.Group != Group.Id)
+            while (Person.Department != Department.Id)
             {
-                Group = _groupList[Person.Group - 1];
+                Department = _departmentList[Person.Department - 1];
             }
         }
         #endregion
-        
+
         #region ButtonClicks
         private void OnNextButtonClick()
         {
@@ -169,46 +169,49 @@ namespace WPFApplication.ViewModel
             {
                 Person = _personList[Person.Id];
             }
-            EstablishPersonGroupRelation();
+            EstablishPersonDepartmentRelation();
         }
 
         private void OnPreviousButtonClick()
         {
-            if(Person.Id == 1)
+            if (Person.Id == 1)
             {
-                Person = _personList[_personList.Count-1];
+                Person = _personList[_personList.Count - 1];
             }
             else
             {
                 Person = _personList[Person.Id - 2];
             }
-            EstablishPersonGroupRelation();
+            EstablishPersonDepartmentRelation();
         }
 
         private void OnSaveButtonClick()
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
-            conn.Open();
-            string sqlQuery = "UPDATE Persons SET FirstName = '(@FName)' WHERE Id = (@Id)";
-            SqlCommand command = new SqlCommand(sqlQuery, conn);
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sqlQuery = "UPDATE dbo.Persons SET FirstName = @FName , LastName = @LName , Department = @DepartmentId WHERE Id = @Id";
+                conn.Open();
 
-            command.Parameters.Add("@FName", SqlDbType.VarChar);
-            command.Parameters.Add("@Id", SqlDbType.Int);
-            command.Parameters["@Id"].Value = Person.Id;
-            command.Parameters["@FName"].Value = Person.FirstName;
+                using (SqlCommand command = new SqlCommand(sqlQuery, conn))
+                {
+                    command.Parameters.Add("@Id", SqlDbType.Int);
+                    command.Parameters.Add("@FName", SqlDbType.VarChar);
+                    command.Parameters.Add("@LName", SqlDbType.VarChar);
+                    command.Parameters.Add("@DepartmentId", SqlDbType.Int);
+                    command.Parameters["@Id"].Value = Person.Id;
+                    command.Parameters["@FName"].Value = Person.FirstName;
+                    command.Parameters["@LName"].Value = Person.LastName;
+                    command.Parameters["@DepartmentId"].Value = Person.Department;
 
-            try
-            {
-                command.ExecuteNonQuery();
-                MessageBox.Show("ja");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex);
-            }
-            finally
-            {
-                conn.Close();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex);
+                    }
+                }
             }
         }
         #endregion
