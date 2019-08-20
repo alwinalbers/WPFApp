@@ -58,7 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Department.cs" />
-    <Compile Include="ViewModel\CommandHandler.cs" />
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

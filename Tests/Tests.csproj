@@ -65,6 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSession.cs" />
     <Compile Include="UITests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

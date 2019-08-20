@@ -105,6 +105,7 @@ namespace WPFApplication.ViewModel
                     AddDepartmentToList(reader);
                 }
                 reader.Close();
+                command.Dispose();
                 connection.Close();
             }
         }
@@ -123,6 +124,7 @@ namespace WPFApplication.ViewModel
                     AddPersonToList(reader);
                 }
                 reader.Close();
+                command.Dispose();
                 connection.Close();
             }
         }

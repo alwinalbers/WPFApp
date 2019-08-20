@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WPFApplication.ViewModel
+namespace WPFApplication
 {
     public class CommandHandler : ICommand
     {
-        private Action _action;
+        private readonly Action _action;
         private Func<bool> _canExecute;
 
         /// <summary>
