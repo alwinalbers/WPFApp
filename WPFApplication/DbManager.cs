@@ -29,14 +29,7 @@ namespace WPFApplication
             _departmentList = new List<Department>();
             PopulatePersonList();
             PopulateDepartmentList();
-            Person = _personList[0];
-            Department = _departmentList[0];
         }
-        #endregion
-
-        #region Properties
-        public Person Person { get; set; }
-        public Department Department { get; set; }
         #endregion
 
         #region Populating Lists
@@ -101,36 +94,46 @@ namespace WPFApplication
         }
         #endregion
 
-        public Person LoadNext()
+        public Person InitialPerson()
         {
-            if (_personList.Count == Person.Id)
+            return _personList[0];
+        }
+
+        public Person LoadNext(int personId)
+        {
+            Person person;
+            if (_personList.Count == personId)
             {
-                Person = _personList[0];
+                person = _personList[0];
             }
             else
             {
-                Person = _personList[Person.Id];
+                person = _personList[personId];
             }
-            return Person;
+            return person;
         }
 
-        public Person LoadPrevious()
+        public Person LoadPrevious(int personId)
         {
-            if (Person.Id == 1)
-            {
-                
-                Person = _personList[_personList.Count - 1];
+            Person person;
+            int previousId = personId - 2;
+            int listCount = _personList.Count - 1;
+
+            if (personId == 1)
+            {       
+                person = _personList[listCount];
             }
             else
             {
-                Person = _personList[Person.Id - 2];
+                person = _personList[previousId];
             }
-            return Person;
+            return person;
         }
 
-        public Department LoadDepartment()
+        public Department LoadDepartment(int personDepartment)
         {
-            return _departmentList[Person.Department - 1];
+            int departmentId = --personDepartment;
+            return _departmentList[departmentId];
         }
 
         public void UpdateDepartments(Department department)

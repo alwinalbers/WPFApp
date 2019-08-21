@@ -20,32 +20,37 @@ namespace WPFApplication.ViewModel
         private ICommand _previousButtonClick;
         private ICommand _saveButtonClick;
         private DbManager _dbManager;
+
+        private Person _person;
+        private Department _department;
         #endregion
 
         #region ctor
         public MainViewModel()
         {
             _dbManager = new DbManager();
+            _person = _dbManager.InitialPerson();
+            _department = _dbManager.LoadDepartment(Person.Department);
         }
         #endregion
 
         #region Properties
         public Person Person
         {
-            get { return _dbManager.Person; }
+            get { return _person; }
             set
             {
-                _dbManager.Person = value;
+                _person = value;
                 OnPropertyChanged();
             }
         }
 
         public Department Department
         {
-            get { return _dbManager.Department; }
+            get { return _department; }
             set
             {
-                _dbManager.Department = value;
+                _department = value;
                 OnPropertyChanged();
             }
         }
@@ -87,14 +92,14 @@ namespace WPFApplication.ViewModel
 
         private void OnNextButtonClick()
         {
-            Person = _dbManager.LoadNext();
-            Department = _dbManager.LoadDepartment();
+            Person = _dbManager.LoadNext(Person.Id);
+            Department = _dbManager.LoadDepartment(Person.Department);
         }
 
         private void OnPreviousButtonClick()
         {
-            Person = _dbManager.LoadPrevious();
-            Department = _dbManager.LoadDepartment();
+            Person = _dbManager.LoadPrevious(Person.Id);
+            Department = _dbManager.LoadDepartment(Person.Department);
         }
 
         private void OnSaveButtonClick()
