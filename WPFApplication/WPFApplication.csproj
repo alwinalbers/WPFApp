@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DbManager.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

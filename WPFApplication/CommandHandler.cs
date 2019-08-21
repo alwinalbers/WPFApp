@@ -9,7 +9,7 @@ namespace WPFApplication
 {
     public class CommandHandler : ICommand
     {
-        private readonly Action _action;
+        private Action _action;
         private Func<bool> _canExecute;
 
         /// <summary>

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFApplication", "WPFApplication\WPFApplication.csproj", "{B04DA9F7-073C-4063-87D5-5CAD23FC467F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{32B484FC-F77A-4B91-9C23-343FB2670177}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F7E1CB6B-B142-4B2E-8178-AFEF154E8163}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{B04DA9F7-073C-4063-87D5-5CAD23FC467F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B04DA9F7-073C-4063-87D5-5CAD23FC467F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B04DA9F7-073C-4063-87D5-5CAD23FC467F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32B484FC-F77A-4B91-9C23-343FB2670177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32B484FC-F77A-4B91-9C23-343FB2670177}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32B484FC-F77A-4B91-9C23-343FB2670177}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32B484FC-F77A-4B91-9C23-343FB2670177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E1CB6B-B142-4B2E-8178-AFEF154E8163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E1CB6B-B142-4B2E-8178-AFEF154E8163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E1CB6B-B142-4B2E-8178-AFEF154E8163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E1CB6B-B142-4B2E-8178-AFEF154E8163}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,12 +14,5 @@ namespace WPFApplication.Models
         public int Id { get; set; }
 
         public Person() { }
-        public Person(int idIn, string fNameIn, string lNameIn, int DepartmentIn)
-        {
-            Department = DepartmentIn;
-            FirstName = fNameIn;
-            LastName = lNameIn;
-            Id = idIn;
-        }        
     }
 }

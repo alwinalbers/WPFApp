@@ -15,43 +15,37 @@ namespace WPFApplication.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel()
-        {
-            PopulatePersonList();
-            PopulateDepartmentList();
-            _person = _personList[0];
-            _department = _departmentList[0];
-        }
-
         #region fields
         private ICommand _nextButtonClick;
         private ICommand _previousButtonClick;
         private ICommand _saveButtonClick;
+        private DbManager _dbManager;
+        #endregion
 
-        private static List<Person> _personList = new List<Person>();
-        private static List<Department> _departmentList = new List<Department>();
-        private Person _person = new Person();
-        private Department _department = new Department();
-        private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=testDB;";
+        #region ctor
+        public MainViewModel()
+        {
+            _dbManager = new DbManager();
+        }
         #endregion
 
         #region Properties
         public Person Person
         {
-            get { return _person; }
+            get { return _dbManager.Person; }
             set
             {
-                _person = value;
+                _dbManager.Person = value;
                 OnPropertyChanged();
             }
         }
 
         public Department Department
         {
-            get { return _department; }
+            get { return _dbManager.Department; }
             set
             {
-                _department = value;
+                _dbManager.Department = value;
                 OnPropertyChanged();
             }
         }
@@ -87,134 +81,26 @@ namespace WPFApplication.ViewModel
                 return true;
             }
         }
-
-        #endregion
-
-        #region Filling Lists With Data
-        private void PopulateDepartmentList()
-        {
-            string queryString = "SELECT * FROM Departments";
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    AddDepartmentToList(reader);
-                }
-                reader.Close();
-                command.Dispose();
-                connection.Close();
-            }
-        }
-
-        private void PopulatePersonList()
-        {
-            string queryString = "SELECT * FROM Persons";
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    AddPersonToList(reader);
-                }
-                reader.Close();
-                command.Dispose();
-                connection.Close();
-            }
-        }
-
-        private void AddDepartmentToList(IDataRecord record)
-        {
-            var Department = new Department()
-            {
-                Id = record.GetInt32(0),
-                Name = record.GetString(1)
-            };
-            _departmentList.Add(Department);
-        }
-
-        private void AddPersonToList(IDataRecord record)
-        {
-            var person = new Person()
-            {
-                Id = record.GetInt32(0),
-                FirstName = record.GetString(1),
-                LastName = record.GetString(2),
-                Department = record.GetInt32(3)
-            };
-            _personList.Add(person);
-        }
-
-        private void EstablishPersonDepartmentRelation()
-        {
-            while (Person.Department != Department.Id)
-            {
-                Department = _departmentList[Person.Department - 1];
-            }
-        }
         #endregion
 
         #region ButtonClicks
+
         private void OnNextButtonClick()
         {
-            if (_personList.Count == Person.Id)
-            {
-                Person = _personList[0];
-            }
-            else
-            {
-                Person = _personList[Person.Id];
-            }
-            EstablishPersonDepartmentRelation();
+            Person = _dbManager.LoadNext();
+            Department = _dbManager.LoadDepartment();
         }
 
         private void OnPreviousButtonClick()
         {
-            if (Person.Id == 1)
-            {
-                Person = _personList[_personList.Count - 1];
-            }
-            else
-            {
-                Person = _personList[Person.Id - 2];
-            }
-            EstablishPersonDepartmentRelation();
+            Person = _dbManager.LoadPrevious();
+            Department = _dbManager.LoadDepartment();
         }
 
         private void OnSaveButtonClick()
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                string sqlQuery = "UPDATE Persons SET FirstName = @FName , LastName = @LName , Department = @DepartmentId WHERE Id = @Id";
-                conn.Open();
-
-                using (SqlCommand command = new SqlCommand(sqlQuery, conn))
-                {
-                    command.Parameters.Add("@Id", SqlDbType.Int);
-                    command.Parameters.Add("@FName", SqlDbType.VarChar);
-                    command.Parameters.Add("@LName", SqlDbType.VarChar);
-                    command.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    command.Parameters["@Id"].Value = Person.Id;
-                    command.Parameters["@FName"].Value = Person.FirstName;
-                    command.Parameters["@LName"].Value = Person.LastName;
-                    command.Parameters["@DepartmentId"].Value = Person.Department;
-
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex);
-                    }
-                }
-            }
+            _dbManager.UpdatePersons(Person);
+            _dbManager.UpdateDepartments(Department);
         }
         #endregion
 

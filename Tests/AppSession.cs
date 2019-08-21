@@ -3,6 +3,7 @@ using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
 
 namespace Tests
 {

@@ -16,9 +16,9 @@
         <Button x:Name="NextButton" Command="{Binding NextButtonClick}" Content="Next" HorizontalAlignment="Left" Margin="158,119,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
         <Button x:Name="PreviousButton" Command="{Binding PreviousButtonClick}" Content="Previous" HorizontalAlignment="Left" Margin="34,119,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
         <Button x:Name="SaveButton" Command="{Binding SaveButtonClick}" Content="Save" HorizontalAlignment="Left" Margin="613,119,0,0" VerticalAlignment="Top" Width="94" Height="47"/>
-        <TextBox x:Uid="1" Text="{Binding Person.FirstName}" x:Name="TextBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="132,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Text="{Binding Person.FirstName}" x:Name="TextBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="132,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox Text="{Binding Person.LastName}" x:Name="TextBoxLastName" HorizontalAlignment="Left" Height="23" Margin="281,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
-        <TextBox Text="{Binding Person.Department}" x:Name="TextBoxDepartment" HorizontalAlignment="Left" Height="23" Margin="474,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="57"/>
+        <TextBox Text="{Binding Person.Department}" Focusable="False"  x:Name="TextBoxDepartment" HorizontalAlignment="Left" Height="23" Margin="474,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="57"/>
         <TextBox Text="{Binding Person.Id}" Focusable="False" x:Name="TextBoxId" HorizontalAlignment="Left" Height="23" Margin="34,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72"/>
         <TextBox Text="{Binding Department.Name}" x:Name="TextBoxDepartmentName" HorizontalAlignment="Left" Height="23" Margin="587,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,38,0,0"/>

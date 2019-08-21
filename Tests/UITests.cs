@@ -22,10 +22,11 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestMethod1()
-        {
-            
-            Assert.IsNotNull(session.FindElementByAccessibilityId("TextBoxId"));
+        public void LoadsFirstPersonCorrectly()
+        {            
+            Assert.AreEqual("1",session.FindElementByAccessibilityId("TextBoxId").Text);
         }
+
+
     }
 }

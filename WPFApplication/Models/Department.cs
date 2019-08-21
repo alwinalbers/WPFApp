@@ -12,10 +12,5 @@ namespace WPFApplication.Models
         public string Name { get; set; }
 
         public Department() {}
-        public Department(int idIn, string nameIn)
-        {
-            Id = idIn;
-            Name = nameIn;
-        }
     }
 }
