@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Threading;
 
 namespace Tests
 {
@@ -33,6 +34,7 @@ namespace Tests
             // Close the application and delete the session
             if (session != null)
             {
+                Thread.Sleep(10000);
                 session.Quit();
                 session = null;
             }
