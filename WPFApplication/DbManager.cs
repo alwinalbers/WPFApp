@@ -19,7 +19,6 @@ namespace WPFApplication
         private readonly string _connectionString = @"Server=(LocalDB)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=testDB;";
         private static List<Person> _personList;
         private static List<Department> _departmentList;
-
         #endregion
 
         #region ctor
